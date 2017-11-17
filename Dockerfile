@@ -43,10 +43,10 @@ RUN \
 # Install opengv from source
 RUN \
     mkdir -p /source && cd /source && \
-    git clone https://github.com/paulinus/opengv.git && \
+    git clone https://github.com/sunbingfengPI/opengv.git && \
     cd /source/opengv && \
     mkdir -p build && cd build && \
-    cmake .. -DBUILD_TESTS=OFF -DBUILD_PYTHON=ON && \
+    cmake .. -DCMAKE_CXX_FLAGS="-std=c++11" -DBUILD_TESTS=OFF -DBUILD_PYTHON=ON && \
     make install && \
     cd / && \
     rm -rf /source/opengv

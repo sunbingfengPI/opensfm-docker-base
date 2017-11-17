@@ -1,0 +1,23 @@
+FROM sunbingfeng/opensfm_base:latest
+
+WORKDIR /app
+
+#Clone the OpenSfM Repository
+RUN git clone https://github.com/mapillary/OpenSfM.git
+
+WORKDIR OpenSfM
+RUN \
+    pip install -r requirements.txt && \
+    python setup.py build
+
+# copy kitti-0005 raw data sets
+RUN \
+    wget -P data/ http://oonn91xrt.bkt.clouddn.com/kitti-0005-h.tar.gz && \
+    tar -zxvf data/kitti-0005-h.tar.gz -C data/ && \
+    rm data/kitti-0005-h.tar.gz
+ 
+# fix opencv error of libdc1394 not found
+RUN \
+    echo 'ln /dev/null /dev/raw1394' >> /root/.bashrc
+
+CMD echo $IMAGEDATA_DIR && ln /dev/null /dev/raw1394 && bin/opensfm_run_all $IMAGEDATA_DIR

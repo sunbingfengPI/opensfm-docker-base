@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: opensfm
+spec:
+  parallelism: 1
+  template:
+    metadata:
+      name: opensfm
+    spec:
+      containers:
+      - name: sfm
+        image: sunbingfeng/opensfm_run
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: IMAGEDATA_DIR
+          value: data/0005_h
+      restartPolicy: OnFailure
